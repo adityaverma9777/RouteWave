@@ -2,47 +2,32 @@ import React from 'react';
 import { Polyline } from 'react-leaflet';
 import type { LatLng } from '../types';
 
-interface RoutePolylineProps {
-  coords: LatLng[];
-}
+interface RoutePolylineProps { coords: LatLng[]; }
 
+/**
+ * Final optimal route — shown after convergence completes.
+ * Three-layer look: wide soft glow → medium glow → crisp core.
+ * Colors adjusted for visibility on the light Voyager map.
+ */
 const RoutePolyline: React.FC<RoutePolylineProps> = ({ coords }) => {
   if (!coords || coords.length < 2) return null;
 
   return (
     <>
-      {/* Outer glow layer */}
+      {/* Wide outer glow */}
       <Polyline
         positions={coords}
-        pathOptions={{
-          color: '#3B82F6',
-          weight: 12,
-          opacity: 0.18,
-          lineCap: 'round',
-          lineJoin: 'round',
-        }}
+        pathOptions={{ color: '#1D4ED8', weight: 14, opacity: 0.12, lineCap: 'round', lineJoin: 'round' }}
       />
-      {/* Mid glow layer */}
+      {/* Mid glow */}
       <Polyline
         positions={coords}
-        pathOptions={{
-          color: '#60A5FA',
-          weight: 7,
-          opacity: 0.45,
-          lineCap: 'round',
-          lineJoin: 'round',
-        }}
+        pathOptions={{ color: '#2563EB', weight: 8,  opacity: 0.35, lineCap: 'round', lineJoin: 'round' }}
       />
-      {/* Core route line */}
+      {/* Crisp core */}
       <Polyline
         positions={coords}
-        pathOptions={{
-          color: '#93C5FD',
-          weight: 4,
-          opacity: 1,
-          lineCap: 'round',
-          lineJoin: 'round',
-        }}
+        pathOptions={{ color: '#2563EB', weight: 4,  opacity: 1,    lineCap: 'round', lineJoin: 'round' }}
       />
     </>
   );
