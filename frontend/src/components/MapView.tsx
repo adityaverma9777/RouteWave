@@ -72,14 +72,14 @@ const MapView: React.FC<MapViewProps> = ({
   animState,
   onMapClick,
 }) => {
-  const isComplete = appState === 'complete';
-  const isAnimating = appState === 'animating';
-
   const getCursor = () => {
     if (appState === 'searching' || appState === 'animating') return 'wait';
     if (appState === 'selecting_end' || appState === 'selecting_start' || appState === 'idle') return 'crosshair';
     return 'default';
   };
+
+  const showWave = animState.phase === 'exploring' || animState.phase === 'converging';
+  const showRoute = appState === 'complete' || (appState === 'animating' && animState.phase === 'complete');
 
   return (
     <MapContainer
@@ -111,17 +111,13 @@ const MapView: React.FC<MapViewProps> = ({
         <Marker position={endPoint} icon={endIcon} />
       )}
 
-      {/* Wave animation (during animating state) */}
-      {isAnimating && !animState.isComplete && (
-        <WaveAnimation
-          leftCoords={animState.leftCoords}
-          rightCoords={animState.rightCoords}
-          isComplete={animState.isComplete}
-        />
+      {/* Bidirectional wave animation (exploring + converging phases) */}
+      {showWave && (
+        <WaveAnimation animState={animState} />
       )}
 
-      {/* Final route (after animation completes) */}
-      {isComplete && routeData && (
+      {/* Final glowing route (after convergence completes) */}
+      {showRoute && routeData && (
         <RoutePolyline coords={routeData.geometry} />
       )}
     </MapContainer>

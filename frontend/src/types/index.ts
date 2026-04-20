@@ -1,4 +1,4 @@
-// ─── App State ────────────────────────────────────────────────────────────────
+
 export type AppState =
   | 'idle'
   | 'selecting_start'
@@ -8,10 +8,8 @@ export type AppState =
   | 'complete'
   | 'error';
 
-// ─── Coordinates ─────────────────────────────────────────────────────────────
 export type LatLng = [number, number]; // [lat, lng]
 
-// ─── Route Data ───────────────────────────────────────────────────────────────
 export interface RouteData {
   geometry: LatLng[];
   distance: number;   // meters
@@ -20,7 +18,6 @@ export interface RouteData {
   countries: string[];
 }
 
-// ─── Route Request/Response ───────────────────────────────────────────────────
 export interface RouteRequest {
   start: LatLng;
   end: LatLng;
@@ -31,13 +28,23 @@ export interface RouteError {
   code: 'NO_ROUTE' | 'SERVICE_ERROR' | 'NETWORK_ERROR' | 'INVALID_INPUT';
 }
 
-// ─── Animation State ─────────────────────────────────────────────────────────
+export type AnimPhase = 'idle' | 'exploring' | 'converging' | 'complete';
+
 export interface AnimationState {
-  leftCoords: LatLng[];
-  rightCoords: LatLng[];
+  phase: AnimPhase;
+  /** Sliced branches from the start side (blue) */
+  leftBranches: LatLng[][];
+  /** Sliced branches from the end side (cyan) */
+  rightBranches: LatLng[][];
+  /** Full route coords — available during converging & complete */
+  finalRoute: LatLng[];
+  /** Approx coordinate where the two fronts met */
+  meetingPoint: LatLng | null;
+  /** 0→1 progress of the convergence flash animation */
+  convergenceProgress: number;
   isComplete: boolean;
-  progress: number; // 0–1
+  /** 0→1 overall progress (for progress bar in panel) */
+  progress: number;
 }
 
-// ─── Marker ───────────────────────────────────────────────────────────────────
 export type MarkerType = 'start' | 'end';

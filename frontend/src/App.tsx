@@ -34,10 +34,10 @@ const App: React.FC = () => {
 
   // ─── When animation finishes ──────────────────────────────────────────────
   useEffect(() => {
-    if (animState.isComplete && appState === 'animating') {
+    if ((animState.isComplete || animState.phase === 'complete') && appState === 'animating') {
       setAppState('complete');
     }
-  }, [animState.isComplete, appState]);
+  }, [animState.isComplete, animState.phase, appState]);
 
   // ─── Map click handler ────────────────────────────────────────────────────
   const handleMapClick = useCallback(async (latlng: LatLng) => {
