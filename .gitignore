@@ -1,0 +1,12 @@
+.env
+.env.local
+node_modules/
+dist/
+*.log
+.DS_Store
+Thumbs.db
+*.osm.pbf
+*.osrm
+*.osrm.*
+/data/*.pbf
+backend/data/boundaries.geojson
