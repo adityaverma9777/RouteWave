@@ -12,7 +12,8 @@ const RIGHT_COLORS = ['#06B6D4', '#22D3EE', '#0891B2', '#67E8F9', '#155E75'];
 function branchLineWeight(idx: number): number {
   return idx === 0 ? 5 : idx === 1 ? 3.5 : 2.5;
 }
-function branchLineOpacity(idx: number, total: number, globalAlpha: number): number {
+function branchLineOpacity(idx: number, _total: number, globalAlpha: number): number {
+  // 'total' parameter is unused, underscore added to avoid TS error
   const base = idx === 0 ? 0.92 : Math.max(0.25, 0.72 - idx * 0.1);
   return base * globalAlpha;
 }
